@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>USAM Fund | Investor Loan Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1A56C4; --deep:#123E96; --ink:#0E1A2B; --body:#475467; --muted:#667085;
+    --tint:#EEF3FC; --ground:#F6F8FB; --border:#E6E9EF; --field:#E0E5EC;
+    --good:#1A7F53; --warn:#B26A00; --bad:#C0392B;
+    --sch:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;
+    --han:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ground);font-family:var(--han);color:var(--body);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 64px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+  .head{background:var(--ink);padding:22px 28px;}
+  .head .ey{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FA0F0;}
+  .head h1{margin:6px 0 4px;font-family:var(--sch);font-weight:800;font-size:24px;letter-spacing:-.02em;color:#fff;}
+  .head p{margin:0;font-size:14px;color:#AEB9C9;}
+  .tabs{display:flex;border-bottom:1px solid var(--border);}
+  .tab{flex:1;padding:14px 8px;background:#fff;border:0;border-bottom:3px solid transparent;cursor:pointer;
+       font-family:var(--han);font-weight:700;font-size:14px;color:var(--muted);}
+  .tab[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue);background:var(--ground);}
+  .pane{padding:28px;display:none;}
+  .pane.on{display:block;}
+  .pane > .lead{margin:0 0 20px;font-size:15px;line-height:1.55;color:var(--body);}
+  label{display:block;font-size:13px;font-weight:600;color:#344054;margin:0 0 6px;}
+  .row{margin-bottom:16px;}
+  .ci{position:relative;}
+  .ci .pre,.ci .suf{position:absolute;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;font-weight:600;}
+  .ci .pre{left:14px;} .ci .suf{right:14px;}
+  input[type=number]{width:100%;font-family:var(--han);font-size:16px;color:var(--ink);background:#fff;
+       border:1px solid var(--field);border-radius:10px;padding:12px 14px;}
+  input.hasPre{padding-left:28px;} input.hasSuf{padding-right:34px;}
+  input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--tint);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+  .out{margin-top:8px;background:var(--ground);border:1px solid var(--border);border-radius:14px;padding:22px 24px;}
+  .out .big{font-family:var(--sch);font-weight:800;font-size:40px;letter-spacing:-.02em;color:var(--ink);line-height:1.05;}
+  .out .biglbl{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .lines{margin-top:18px;border-top:1px solid var(--border);padding-top:14px;}
+  .line{display:flex;justify-content:space-between;padding:7px 0;font-size:14.5px;}
+  .line span:first-child{color:var(--body);}
+  .line span:last-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .badge{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;}
+  .badge.good{background:#E6F4EC;color:var(--good);} .badge.warn{background:#FBF0DE;color:var(--warn);} .badge.bad{background:#FBE9E7;color:var(--bad);}
+  .note{margin-top:14px;font-size:12px;line-height:1.5;color:var(--muted);}
+  .cta{margin-top:22px;text-align:center;}
+  .cta a{display:inline-block;font-family:var(--han);font-weight:700;font-size:15px;color:#fff;background:var(--blue);
+       border-radius:999px;padding:14px 30px;text-decoration:none;}
+  .cta a:hover{background:var(--deep);}
+  .foot{text-align:center;padding:22px 16px;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="head">
+      <div class="ey">USAM Fund</div>
+      <h1>Investor Loan Calculator</h1>
+      <p>Run the numbers on a deal in seconds. Built for how real estate investors actually underwrite.</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-pane="flip">Fix and Flip</button>
+      <button class="tab" role="tab" aria-selected="false" data-pane="dscr">DSCR Rental</button>
+      <button class="tab" role="tab" aria-selected="false" data-pane="hard">Hard Money Cost</button>
+    </div>
+
+    <!-- FIX AND FLIP -->
+    <div class="pane on" id="flip" role="tabpanel">
+      <p class="lead">The 70% Rule: your maximum offer so a flip still pencils. Enter the after-repair value and your rehab budget.</p>
+      <div class="grid2">
+        <div class="row"><label>After-repair value (ARV)</label><div class="ci"><span class="pre">$</span><input id="f_arv" class="hasPre" type="number" inputmode="numeric" value="325000"></div></div>
+        <div class="row"><label>Estimated repairs</label><div class="ci"><span class="pre">$</span><input id="f_rehab" class="hasPre" type="number" inputmode="numeric" value="50000"></div></div>
+        <div class="row"><label>Rule percentage</label><div class="ci"><input id="f_rule" class="hasSuf" type="number" inputmode="numeric" value="70"><span class="suf">%</span></div></div>
+        <div class="row"><label>Your purchase price (optional)</label><div class="ci"><span class="pre">$</span><input id="f_price" class="hasPre" type="number" inputmode="numeric" value="200000"></div></div>
+      </div>
+      <div class="out">
+        <div class="biglbl">Maximum allowable offer</div>
+        <div class="big" id="f_max">$—</div>
+        <div class="lines">
+          <div class="line"><span>ARV x rule %</span><span id="f_arvpct">$—</span></div>
+          <div class="line"><span>Less estimated repairs</span><span id="f_lessrehab">$—</span></div>
+          <div class="line"><span>Est. profit at your purchase price</span><span id="f_profit">$—</span></div>
+          <div class="line"><span>USAM financing: up to 90% purchase + 100% rehab</span><span id="f_loan">$—</span></div>
+          <div class="line"><span>Estimated cash to close (10% of purchase)</span><span id="f_cash">$—</span></div>
+        </div>
+        <div class="note">The 70% Rule leaves room for holding costs, closing, and profit. Profit shown is rough (ARV minus your price minus repairs) and excludes holding and selling costs. Not a commitment to lend.</div>
+      </div>
+      <div class="cta"><a href="https://usamortgage.net/apply?program=fix-and-flip" target="_blank" rel="noopener">Get a real rate on this deal</a></div>
+    </div>
+
+    <!-- DSCR -->
+    <div class="pane" id="dscr" role="tabpanel">
+      <p class="lead">DSCR is the rent divided by the monthly loan payment. USAM funds deals with a DSCR as low as 0.75. Enter gross monthly rent and the monthly payment (principal, interest, taxes, insurance, HOA).</p>
+      <div class="grid2">
+        <div class="row"><label>Gross monthly rent</label><div class="ci"><span class="pre">$</span><input id="d_rent" class="hasPre" type="number" inputmode="numeric" value="2600"></div></div>
+        <div class="row"><label>Monthly payment (PITIA)</label><div class="ci"><span class="pre">$</span><input id="d_pmt" class="hasPre" type="number" inputmode="numeric" value="2100"></div></div>
+      </div>
+      <div class="out">
+        <div class="biglbl">Debt service coverage ratio</div>
+        <div class="big" id="d_ratio">—</div>
+        <div id="d_badge"></div>
+        <div class="lines">
+          <div class="line"><span>Monthly cash flow (rent minus payment)</span><span id="d_flow">$—</span></div>
+          <div class="line"><span>USAM minimum DSCR</span><span>0.75</span></div>
+        </div>
+        <div class="note">DSCR at or above 1.00 means the rent covers the payment. Between 0.75 and 1.00 can still qualify with USAM. Below 0.75 is under our minimum. Not a commitment to lend.</div>
+      </div>
+      <div class="cta"><a href="https://usamortgage.net/apply?program=dscr" target="_blank" rel="noopener">Price a DSCR loan</a></div>
+    </div>
+
+    <!-- HARD MONEY COST -->
+    <div class="pane" id="hard" role="tabpanel">
+      <p class="lead">Interest-only cost on a hard money or bridge loan. Enter the loan amount, rate, points, and how many months you expect to hold it.</p>
+      <div class="grid2">
+        <div class="row"><label>Loan amount</label><div class="ci"><span class="pre">$</span><input id="h_amt" class="hasPre" type="number" inputmode="numeric" value="300000"></div></div>
+        <div class="row"><label>Interest rate (annual)</label><div class="ci"><input id="h_rate" class="hasSuf" type="number" inputmode="decimal" step="0.01" value="9.00"><span class="suf">%</span></div></div>
+        <div class="row"><label>Points (origination)</label><div class="ci"><input id="h_pts" class="hasSuf" type="number" inputmode="decimal" step="0.25" value="2"><span class="suf">%</span></div></div>
+        <div class="row"><label>Term you'll hold it</label><div class="ci"><input id="h_term" class="hasSuf" type="number" inputmode="numeric" value="12"><span class="suf">mo</span></div></div>
+      </div>
+      <div class="out">
+        <div class="biglbl">Interest-only monthly payment</div>
+        <div class="big" id="h_mo">$—</div>
+        <div class="lines">
+          <div class="line"><span>Points cost (paid at close)</span><span id="h_ptcost">$—</span></div>
+          <div class="line"><span>Total interest over the term</span><span id="h_int">$—</span></div>
+          <div class="line"><span>Total cost of capital (points + interest)</span><span id="h_total">$—</span></div>
+        </div>
+        <div class="note">Interest-only assumes no principal paydown during the term, which is typical for bridge and fix-and-flip loans. Actual terms subject to underwriting. Not a commitment to lend.</div>
+      </div>
+      <div class="cta"><a href="https://usamortgage.net/apply?program=bridge" target="_blank" rel="noopener">Get my rate and points</a></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    USAM I Fund LLC &middot; 3821 Juniper Trace, Suite 210, Bee Cave, TX 78738 &middot; 512-488-6087 &middot; jack@usam.net<br>
+    Estimates only. Loans for business purpose only. Not a commitment to lend.
+  </div>
+</div>
+
+<script>
+  var usd = function(n){ if(!isFinite(n)) return '$—'; return '$' + Math.round(n).toLocaleString('en-US'); };
+  var num = function(id){ var v = parseFloat(document.getElementById(id).value); return isFinite(v) ? v : 0; };
+
+  // Tabs
+  var tabs = document.querySelectorAll('.tab');
+  function activate(pane){
+    tabs.forEach(function(x){ x.setAttribute('aria-selected', x.dataset.pane===pane ? 'true':'false'); });
+    document.querySelectorAll('.pane').forEach(function(p){ p.classList.toggle('on', p.id===pane); });
+  }
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ activate(t.dataset.pane); }); });
+  // Deep-link support: /loan-calculator.html#flip | #dscr | #hard
+  var h = (location.hash || '').replace('#','');
+  if(['flip','dscr','hard'].indexOf(h) > -1){ activate(h); }
+  window.addEventListener('hashchange', function(){
+    var g = (location.hash||'').replace('#',''); if(['flip','dscr','hard'].indexOf(g)>-1) activate(g);
+  });
+
+  function calcFlip(){
+    var arv = num('f_arv'), rehab = num('f_rehab'), rule = num('f_rule')/100, price = num('f_price');
+    var arvpct = arv * rule;
+    var max = arvpct - rehab;
+    document.getElementById('f_arvpct').textContent = usd(arvpct);
+    document.getElementById('f_lessrehab').textContent = '-' + usd(rehab);
+    document.getElementById('f_max').textContent = usd(max);
+    document.getElementById('f_profit').textContent = usd(arv - price - rehab);
+    document.getElementById('f_loan').textContent = usd(price*0.90 + rehab);
+    document.getElementById('f_cash').textContent = usd(price*0.10);
+  }
+  function calcDscr(){
+    var rent = num('d_rent'), pmt = num('d_pmt');
+    var r = pmt > 0 ? rent/pmt : 0;
+    document.getElementById('d_ratio').textContent = pmt > 0 ? r.toFixed(2) : '—';
+    document.getElementById('d_flow').textContent = usd(rent - pmt);
+    var b = document.getElementById('d_badge'), cls, txt;
+    if(pmt<=0){ b.innerHTML=''; }
+    else if(r>=1.00){ cls='good'; txt='Strong: rent covers the payment'; }
+    else if(r>=0.75){ cls='warn'; txt='Can qualify with USAM (0.75 minimum)'; }
+    else { cls='bad'; txt='Below the 0.75 minimum'; }
+    if(pmt>0) b.innerHTML = '<span class="badge '+cls+'">'+txt+'</span>';
+  }
+  function calcHard(){
+    var amt = num('h_amt'), rate = num('h_rate')/100, pts = num('h_pts')/100, term = num('h_term');
+    var mo = amt * rate / 12;
+    var ptcost = amt * pts;
+    var totint = mo * term;
+    document.getElementById('h_mo').textContent = usd(mo);
+    document.getElementById('h_ptcost').textContent = usd(ptcost);
+    document.getElementById('h_int').textContent = usd(totint);
+    document.getElementById('h_total').textContent = usd(ptcost + totint);
+  }
+  function all(){ calcFlip(); calcDscr(); calcHard(); }
+  document.querySelectorAll('input[type=number]').forEach(function(i){ i.addEventListener('input', all); });
+  all();
+</script>
+</body>
+</html>

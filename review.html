@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>USAM Fund | Email Review Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#1A56C4;--deep:#123E96;--ink:#0E1A2B;--body:#475467;--muted:#667085;--tint:#EEF3FC;--ground:#F6F8FB;--border:#E6E9EF;--good:#1A7F53;
+        --sch:'Schibsted Grotesk',sans-serif;--han:'Hanken Grotesk',sans-serif;}
+  *{box-sizing:border-box;} body{margin:0;background:var(--ground);font-family:var(--han);color:var(--body);}
+  header{background:var(--ink);padding:26px 24px;position:sticky;top:0;z-index:5;}
+  .hin{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;}
+  header .ey{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FA0F0;}
+  header h1{margin:6px 0 4px;font-family:var(--sch);font-weight:800;font-size:24px;color:#fff;letter-spacing:-.02em;}
+  header p{margin:0;font-size:13px;color:#AEB9C9;}
+  .progress{font-family:var(--sch);font-weight:800;font-size:20px;color:#fff;}
+  .progress span{font-size:12px;font-weight:600;color:#AEB9C9;font-family:var(--han);display:block;text-align:right;}
+  .wrap{max-width:900px;margin:0 auto;padding:20px 24px 64px;}
+  .toolbar{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+  .toolbar button{font-family:var(--han);font-size:12.5px;font-weight:700;color:var(--blue);background:#fff;
+    border:1px solid var(--border);border-radius:999px;padding:7px 14px;cursor:pointer;}
+  .toolbar button:hover{background:var(--tint);}
+  h2{font-family:var(--sch);font-weight:800;font-size:14px;color:var(--ink);letter-spacing:.04em;text-transform:uppercase;
+     margin:30px 0 4px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+  h2:first-of-type{margin-top:6px;}
+  .count{font-family:var(--han);font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0;font-size:12.5px;}
+  ul{list-style:none;margin:0;padding:0;}
+  li{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid var(--border);}
+  li:last-child{border-bottom:none;}
+  li.done .name{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--border);}
+  input[type=checkbox]{width:18px;height:18px;accent-color:var(--good);flex-shrink:0;cursor:pointer;}
+  .name{font-family:var(--han);font-weight:600;font-size:14.5px;color:var(--ink);flex:1;}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--blue);
+    background:var(--tint);border-radius:6px;padding:2px 7px;flex-shrink:0;}
+  a.open{font-family:var(--han);font-size:13px;font-weight:700;color:var(--blue);text-decoration:none;flex-shrink:0;
+    border:1px solid var(--border);border-radius:999px;padding:6px 12px;}
+  a.open:hover{background:var(--tint);}
+</style>
+</head>
+<body>
+<header><div class="hin">
+  <div>
+    <div class="ey">USAM Fund</div>
+    <h1>Email Review Checklist</h1>
+    <p>Click "Open" to review, check off when done. Progress saves in this browser. <a href="index.html" style="color:#AEB9C9;">&larr; Back to gallery</a></p>
+  </div>
+  <div class="progress" id="progressNum">0 / 0<span id="progressPct">0%</span></div>
+</div></header>
+<div class="wrap">
+  <div class="toolbar">
+    <button onclick="setAll(true)">Mark all reviewed</button>
+    <button onclick="setAll(false)">Reset all</button>
+  </div>
+  <div id="sections"></div>
+</div>
+<script>
+  var groups = [
+    { title: 'Tool', items: [
+      ['Investor Loan Calculator', 'loan-calculator.html', 'Tool'],
+    ]},
+    { title: 'Weekly rotation', items: [
+      ['Bridge Loans', 'bridge-loan.html', 'Campaign'],
+      ['DSCR Rental', 'dscr-rental.html', 'Campaign'],
+      ['Products Catalog', 'products-catalog.html', 'Campaign'],
+      ['Bank Statements', 'bank-statements.html', 'Campaign'],
+      ['Fix and Flip', 'fix-and-flip.html', 'Campaign'],
+      ['Ground-Up Construction', 'ground-up-construction.html', 'Campaign'],
+      ['How to Flip (educational)', 'how-to-flip.html', 'Campaign'],
+      ['2nd Mortgage', 'second-mortgage.html', 'Campaign'],
+      ['Refinance', 'refinance.html', 'Campaign'],
+      ['Property Alert', 'property-alert.html', 'Campaign'],
+    ]},
+    { title: 'Seasonal and reactive', items: [
+      ['New Year', 'new-year.html', 'Campaign'],
+      ['Happy Holidays', 'happy-holidays.html', 'Campaign'],
+      ['Tax Season', 'tax-season.html', 'Campaign'],
+      ['Rate-Drop Alert', 'rate-drop-alert.html', 'Campaign'],
+    ]},
+    { title: 'New programs', items: [
+      ['SBA Financing', 'sba-financing.html', 'Campaign'],
+      ['Transactional Funding', 'transactional-funding.html', 'Campaign'],
+      ['Land Acquisition and Development', 'land-acquisition-development.html', 'Campaign'],
+      ['CRE Permanent', 'cre-permanent.html', 'Campaign'],
+      ['Portfolio Loans', 'portfolio-loans.html', 'Campaign'],
+    ]},
+    { title: 'Lifecycle', items: [
+      ['Welcome (new subscriber)', 'welcome-new-subscriber.html', 'Campaign'],
+      ['Win-Back / Re-Engagement', 'win-back-reengagement.html', 'Campaign'],
+    ]},
+    { title: 'Resource articles (/resources)', items: [
+      ['What Is a DSCR Loan?', 'Resource Articles/what-is-a-dscr-loan.html', 'Article'],
+      ['Fix and Flip Loan Requirements', 'Resource Articles/fix-and-flip-loan-requirements.html', 'Article'],
+      ['Financing the BRRRR Method', 'Resource Articles/brrrr-method-financing.html', 'Article'],
+      ['DSCR vs Conventional Loan', 'Resource Articles/dscr-vs-conventional-loan.html', 'Article'],
+      ['What Is ARV?', 'Resource Articles/what-is-arv-after-repair-value.html', 'Article'],
+      ['Hard Money Rates and Costs', 'Resource Articles/hard-money-loan-rates-and-costs.html', 'Article'],
+      ['What Is a Bridge Loan?', 'Resource Articles/what-is-a-bridge-loan-real-estate.html', 'Article'],
+      ['Ground-Up Construction Loans', 'Resource Articles/how-ground-up-construction-loans-work.html', 'Article'],
+      ['What Is Transactional Funding?', 'Resource Articles/what-is-transactional-funding.html', 'Article'],
+      ['Bank Statement and No-Doc Loans', 'Resource Articles/bank-statement-loans-for-investors.html', 'Article'],
+      ['Finance a Rental in an LLC', 'Resource Articles/how-to-finance-a-rental-property-in-an-llc.html', 'Article'],
+      ['LTV vs LTC', 'Resource Articles/ltv-vs-ltc-explained.html', 'Article'],
+      ['Fix and Flip With No Money Down?', 'Resource Articles/fix-and-flip-no-money-down.html', 'Article'],
+      ['SBA 7(a) vs 504', 'Resource Articles/sba-7a-vs-504.html', 'Article'],
+      ['How Fast Can Hard Money Close?', 'Resource Articles/how-fast-can-a-hard-money-loan-close.html', 'Article'],
+      ['DSCR Credit Score', 'Resource Articles/dscr-loan-credit-score.html', 'Article'],
+      ['Fix and Flip Down Payment', 'Resource Articles/fix-and-flip-down-payment.html', 'Article'],
+      ['Hard Money vs Private Money', 'Resource Articles/hard-money-vs-private-money.html', 'Article'],
+      ['Proof of Funds Letter', 'Resource Articles/proof-of-funds-letter.html', 'Article'],
+      ['Scale a Rental Portfolio', 'Resource Articles/how-to-scale-a-rental-portfolio.html', 'Article'],
+      ['What Is a Blanket Loan?', 'Resource Articles/what-is-a-blanket-loan.html', 'Article'],
+      ['Cash-Out Refinance', 'Resource Articles/cash-out-refinance-investment-property.html', 'Article'],
+      ['Interest-Only Financing', 'Resource Articles/interest-only-investment-loan.html', 'Article'],
+      ['Fix and Flip vs Buy and Hold', 'Resource Articles/fix-and-flip-vs-buy-and-hold.html', 'Article'],
+      ['Construction Draw Schedule', 'Resource Articles/construction-loan-draw-schedule.html', 'Article'],
+      ['How to Calculate DSCR', 'Resource Articles/how-to-calculate-dscr.html', 'Article'],
+      ['Commercial Bridge vs Permanent', 'Resource Articles/commercial-bridge-vs-permanent-financing.html', 'Article'],
+      ['Hard Money Loan Documents', 'Resource Articles/hard-money-loan-documents.html', 'Article'],
+      ['Construction vs Renovation Loan', 'Resource Articles/construction-loan-vs-renovation-loan.html', 'Article'],
+      ['Estimate a Rehab Budget', 'Resource Articles/how-to-estimate-a-rehab-budget.html', 'Article'],
+      ['Bridge Loan Exit Strategies', 'Resource Articles/bridge-loan-exit-strategies.html', 'Article'],
+      ['Transactional vs Hard Money', 'Resource Articles/transactional-funding-vs-hard-money.html', 'Article'],
+      ['Double Closing Explained', 'Resource Articles/double-closing-explained-for-wholesalers.html', 'Article'],
+      ['No-Doc Investment Loans', 'Resource Articles/no-doc-investment-property-loans.html', 'Article'],
+      ['Bank Statement Requirements', 'Resource Articles/bank-statement-loan-requirements.html', 'Article'],
+      ['SBA 504 Owner-Occupied', 'Resource Articles/sba-504-for-owner-occupied-real-estate.html', 'Article'],
+      ['SBA Down Payment and Terms', 'Resource Articles/sba-loan-down-payment-and-terms.html', 'Article'],
+      ['Blanket vs Individual Mortgages', 'Resource Articles/blanket-loan-vs-individual-mortgages.html', 'Article'],
+      ['Refinance a Rental Portfolio', 'Resource Articles/how-to-refinance-a-rental-portfolio.html', 'Article'],
+    ]},
+    { title: 'Compare articles (/compare)', items: [
+      ['DSCR vs Hard Money', 'Compare Articles/dscr-vs-hard-money.html', 'Compare'],
+      ['Hard Money vs Private Money', 'Compare Articles/hard-money-vs-private-money.html', 'Compare'],
+      ['DSCR vs Conventional', 'Compare Articles/dscr-vs-conventional.html', 'Compare'],
+      ['Hard Money vs Conventional', 'Compare Articles/hard-money-vs-conventional.html', 'Compare'],
+      ['DSCR Cash-Out vs Conventional', 'Compare Articles/dscr-cash-out-vs-conventional.html', 'Compare'],
+      ['Bridge vs DSCR', 'Compare Articles/bridge-vs-dscr.html', 'Compare'],
+      ['SBA 7(a) vs Conventional', 'Compare Articles/sba-7a-vs-conventional.html', 'Compare'],
+    ]},
+  ];
+
+  var STORE_KEY = 'usam-email-review-v1';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { state = {}; }
+
+  var allItems = [];
+  groups.forEach(function(g){ g.items.forEach(function(it){ allItems.push(it[1]); }); });
+
+  function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); updateProgress(); }
+  function updateProgress(){
+    var done = allItems.filter(function(p){ return state[p]; }).length;
+    var total = allItems.length;
+    document.getElementById('progressNum').firstChild.textContent = done + ' / ' + total + ' ';
+    document.getElementById('progressPct').textContent = total ? Math.round(done/total*100) + '%' : '0%';
+  }
+  function setAll(val){
+    allItems.forEach(function(p){ state[p] = val; });
+    save();
+    document.querySelectorAll('input[type=checkbox]').forEach(function(cb){ cb.checked = val; });
+    document.querySelectorAll('li').forEach(function(li){ li.classList.toggle('done', val); });
+  }
+
+  var sectionsEl = document.getElementById('sections');
+  groups.forEach(function(g){
+    var h2 = document.createElement('h2');
+    h2.innerHTML = g.title + ' <span class="count">(' + g.items.length + ')</span>';
+    sectionsEl.appendChild(h2);
+    var ul = document.createElement('ul');
+    g.items.forEach(function(it){
+      var name = it[0], path = it[1], tag = it[2];
+      var li = document.createElement('li');
+      if (state[path]) li.classList.add('done');
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.checked = !!state[path];
+      cb.addEventListener('change', function(){ state[path] = cb.checked; li.classList.toggle('done', cb.checked); save(); });
+      var nameSpan = document.createElement('span'); nameSpan.className = 'name'; nameSpan.textContent = name;
+      var tagSpan = document.createElement('span'); tagSpan.className = 'tag'; tagSpan.textContent = tag;
+      var a = document.createElement('a'); a.className = 'open'; a.href = path; a.target = '_blank'; a.textContent = 'Open →';
+      li.appendChild(cb); li.appendChild(nameSpan); li.appendChild(tagSpan); li.appendChild(a);
+      ul.appendChild(li);
+    });
+    sectionsEl.appendChild(ul);
+  });
+  updateProgress();
+</script>
+</body>
+</html>
