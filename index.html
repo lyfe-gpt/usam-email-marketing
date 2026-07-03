@@ -40,6 +40,22 @@
 </style>
 </head>
 <body>
+<!-- BLOCK: PASSWORD GATE (soft, client-side only) -->
+<div id="gate" style="position:fixed;inset:0;z-index:9999;background:#0E1A2B;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="width:100%;max-width:340px;text-align:center;font-family:'Hanken Grotesk',sans-serif;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6FA0F0;">USAM Fund</div>
+    <h1 style="margin:8px 0 6px;font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:24px;color:#fff;letter-spacing:-.02em;">Protected</h1>
+    <p style="margin:0 0 20px;font-size:13px;color:#AEB9C9;">Enter the password to view the emails.</p>
+    <input id="gatePw" type="password" placeholder="Password" autocomplete="off"
+      style="width:100%;font-family:'Hanken Grotesk',sans-serif;font-size:16px;color:#0E1A2B;background:#fff;border:1px solid #E0E5EC;border-radius:10px;padding:12px 14px;margin-bottom:12px;">
+    <button id="gateBtn"
+      style="width:100%;font-family:'Hanken Grotesk',sans-serif;font-size:15px;font-weight:700;color:#fff;background:#1A56C4;border:0;border-radius:999px;padding:13px;cursor:pointer;">Unlock</button>
+    <div id="gateErr" style="display:none;margin-top:12px;font-size:13px;font-weight:600;color:#F3A3A0;">Incorrect password. Try again.</div>
+  </div>
+</div>
+<script>if(localStorage.getItem('usam-email-gate')==='1'){var _g=document.getElementById('gate');if(_g)_g.style.display='none';}</script>
+<!-- /BLOCK: PASSWORD GATE -->
+
 <header><div class="hin">
   <div>
     <div class="ey">USAM Fund</div>
@@ -184,6 +200,31 @@
     sectionsEl.appendChild(ul);
   });
   updateProgress();
+</script>
+<script>
+  // Password gate (soft, client-side). Password: "password". Remembers via localStorage.
+  (function(){
+    var KEY = 'usam-email-gate', PW = 'password';
+    var gate = document.getElementById('gate');
+    if (!gate) return;
+    if (localStorage.getItem(KEY) === '1') { gate.style.display = 'none'; return; }
+    var pw = document.getElementById('gatePw'),
+        btn = document.getElementById('gateBtn'),
+        err = document.getElementById('gateErr');
+    function tryUnlock(){
+      if (pw.value === PW) {
+        localStorage.setItem(KEY, '1');
+        gate.style.display = 'none';
+      } else {
+        err.style.display = 'block';
+        pw.value = '';
+        pw.focus();
+      }
+    }
+    btn.addEventListener('click', tryUnlock);
+    pw.addEventListener('keydown', function(e){ if (e.key === 'Enter') tryUnlock(); });
+    pw.focus();
+  })();
 </script>
 </body>
 </html>
