@@ -4,3 +4,5 @@ _archive/
 
 # local pre-edit backups, never committed
 _trash/
+BRIEF.md
+INVENTORY.md
