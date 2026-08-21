@@ -20,7 +20,19 @@
   .usam-link:hover { color:#123E96 !important; }
   @media only screen and (max-width:600px) {
     .usam-shell { width:100% !important; }
-    .usam-pad { padding-left:24px !important; padding-right:24px !important; }
+    .usam-util { padding-left:20px !important; padding-right:20px !important; }
+    .usam-util-a, .usam-util-b { display:block !important; width:100% !important; text-align:center !important; }
+    .usam-util-b { padding-top:5px !important; }
+    .usam-outer { padding-left:8px !important; padding-right:8px !important; padding-top:16px !important; padding-bottom:16px !important; }
+    .usam-nav { padding-left:20px !important; padding-right:20px !important; }
+    .usam-nav-a, .usam-nav-b { display:block !important; width:100% !important; text-align:center !important; }
+    .usam-nav-a img { margin-left:auto !important; margin-right:auto !important; }
+    .usam-nav-b { padding-top:12px !important; }
+    .usam-nav-inner { float:none !important; margin-left:auto !important; margin-right:auto !important; }
+    .usam-pad { padding-left:16px !important; padding-right:16px !important; }
+    .usam-cmp td { padding-left:4px !important; padding-right:4px !important; font-size:11px !important; }
+    .usam-stack, .usam-stack-b { box-sizing:border-box !important; }
+    .usam-cards td { padding-left:8px !important; padding-right:8px !important; }
     .usam-stack { display:block !important; width:100% !important; }
     /* Reset the divider-side padding when this column drops below its sibling,
        or it keeps its 20px "gap from the divider" indent with no divider there. */
@@ -39,20 +51,20 @@
 
 <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:#F6F8FB; margin:0; padding:0;">
   <tr>
-    <td align="center" style="padding:24px 12px;">
+    <td class="usam-outer" align="center" style="padding:24px 12px;">
 
       <table role="presentation" class="usam-shell" width="600" border="0" cellpadding="0" cellspacing="0" style="width:600px; max-width:600px; background-color:#ffffff; border:1px solid #E6E9EF; border-radius:16px; overflow:hidden;">
 
         <!-- BLOCK: UTILITY BAR -->
         <tr>
-          <td style="background-color:#0E1A2B; padding:8px 40px;">
+          <td class="usam-util" style="background-color:#0E1A2B; padding:8px 40px;">
             <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td align="left" valign="middle">
+                <td class="usam-util-a" align="left" valign="middle">
                   <span style="color:#C9362E; font-size:12px;">&#9679;</span>
                   <span style="font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:0.04em; color:#AEB9C9;">&nbsp;Direct private lending, nationwide in most states</span>
                 </td>
-                <td align="right" valign="middle">
+                <td class="usam-util-b" align="right" valign="middle">
                   <a href="tel:+15126179400" style="font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.04em; color:#E7ECF3; text-decoration:none; white-space:nowrap;">512-617-9400</a>
                 </td>
               </tr>
@@ -63,12 +75,12 @@
 
         <!-- BLOCK: NAV -->
         <tr>
-          <td style="padding:16px 40px; border-bottom:1px solid #E6E9EF;">
+          <td class="usam-nav" style="padding:16px 40px; border-bottom:1px solid #E6E9EF;">
             <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td align="left" valign="middle"><a href="https://usam.net" target="_blank" rel="noopener noreferrer" style="display:block; text-decoration:none;"><img src="https://lyfe-gpt.github.io/usam-email-marketing/assets/usam-logo.png" alt="USA Mortgage" width="128" height="44" style="display:block; width:128px; height:44px; border:0;"></a></td>
-                <td align="right" valign="middle">
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" align="right"><tr><td valign="middle" style="padding-right:10px;"><a href="tel:+15126179400" style="display:block; text-decoration:none;"><img src="https://lyfe-gpt.github.io/usam-email-marketing/assets/usam-phone.png" alt="Call USA Mortgage" width="40" height="40" style="display:block; width:40px; height:40px; border:0;"></a></td><td valign="middle"><a class="usam-btn" href="https://usam.net/apply?program=portfolio-loans" target="_blank" rel="noopener noreferrer" style="display:inline-block; font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:15px; font-weight:700; color:#ffffff; background:#1A56C4; border-radius:999px; padding:11px 22px;">Apply now</a></td></tr></table>
+                <td class="usam-nav-a" align="left" valign="middle"><a href="https://usam.net" target="_blank" rel="noopener noreferrer" style="display:block; text-decoration:none;"><img src="https://lyfe-gpt.github.io/usam-email-marketing/assets/usam-logo.png" alt="USA Mortgage" width="128" height="44" style="display:block; width:128px; height:44px; border:0;"></a></td>
+                <td class="usam-nav-b" align="right" valign="middle">
+                  <table class="usam-nav-inner" role="presentation" border="0" cellpadding="0" cellspacing="0" align="right"><tr><td valign="middle" style="padding-right:10px;"><a href="tel:+15126179400" style="display:block; text-decoration:none;"><img src="https://lyfe-gpt.github.io/usam-email-marketing/assets/usam-phone.png" alt="Call USA Mortgage" width="40" height="40" style="display:block; width:40px; height:40px; border:0;"></a></td><td valign="middle"><a class="usam-btn" href="https://usam.net/apply?program=portfolio-loans" target="_blank" rel="noopener noreferrer" style="display:inline-block; font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:15px; font-weight:700; color:#ffffff; background:#1A56C4; border-radius:999px; padding:11px 22px;">Apply now</a></td></tr></table>
                 </td>
               </tr>
             </table>
@@ -249,7 +261,7 @@
               <span style="color:#AEB9C9; font-weight:700;">USA Mortgage Disclosure:</span> Your personal information is kept strictly confidential. Under no circumstances will your information be shared with any outside marketing groups or sold for profit.
             </p>
             <p style="margin:0 0 12px; font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:11px; line-height:1.6; color:#8A97A8;">
-              USAM I Fund LLC, 3821 Juniper Trace, Suite 210, Bee Cave, TX 78738 &middot; 512-617-9400 &middot; <a class="usam-link" href="mailto:jack@usam.net" target="_blank" rel="noopener noreferrer" style="color:#AEB9C9;">jack@usam.net</a>
+              &copy; 2026 USA Mortgage. All rights reserved. USA Mortgage is an assumed name (DBA) of USAM I FUND, LLC, a Texas limited liability company.<br>3821 Juniper Trace, Suite 210, Bee Cave, TX 78738 &middot; 512-617-9400 &middot; <a class="usam-link" href="mailto:jack@usam.net" target="_blank" rel="noopener noreferrer" style="color:#AEB9C9;">jack@usam.net</a>
             </p>
             <p style="margin:0 0 12px; font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:11px; color:#8A97A8;">Loans for business purpose only &middot; Not a commitment to lend.</p>
             <p style="margin:0; font-family:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif; font-size:11px; color:#8A97A8;"><a href="{{{unsubscribe}}}" style="color:#8A97A8; text-decoration:underline;">Unsubscribe</a></p>
